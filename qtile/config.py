@@ -51,6 +51,7 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "m", lazy.spawn("rofi -show run")),
     Key([mod], "f", lazy.spawn("firefox")),
+    Key([mod], "s", lazy.spawn("spotify")),
     Key([mod, 'shift'], "m", lazy.spawn("rofi -show")),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
@@ -64,7 +65,7 @@ keys = [
 
 #group_list = ["","","DEV",""]
 groups = [Group(i) for i in [
-    "","","","",""
+    "","","","","", ""
     ]]
 #groups = [__groups[i] for i in __groups]
 
@@ -92,7 +93,7 @@ layouts = [
     # layout.Bsp(),
     # layout.Matrix(),
     layout.MonadTall(
-        border_with=2,
+        border_with=3,
         border_focus ="#543470"
     ),
     # layout.MonadWide(),
@@ -105,7 +106,7 @@ layouts = [
 
 widget_defaults = dict(
     font='JetBrains Mono',
-    fontsize=15,
+    fontsize=12,
     padding=3,
 )
 extension_defaults = widget_defaults.copy()
@@ -128,7 +129,7 @@ screens = [
                         interface="enp0s25",
                         format = ' {down} ↓↑ {up}',
                         padding = 3,
-                        fontsize = 12
+                        fontsize = 11
                         ),
                 widget.CPU(
                     foreground= "#069c88",
@@ -142,7 +143,7 @@ screens = [
                     #format = '{MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
                     foreground="#e407eb",
                     font = "JetBrainsMono Nerd Font",
-                    padding = 3,
+                    padding = 4,
                     fontsize = 11
                 ),
             ],
@@ -192,7 +193,7 @@ wmname = "LG3D"
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/vegeta.jpg",
+    "feh --bg-fill ~/.config/qtile/neo.jpg",
     "picom &"
 ]
 
