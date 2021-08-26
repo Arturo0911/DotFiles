@@ -111,11 +111,26 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+# def base(fg='text', bg='dark'): 
+#     return {
+#         'foreground': colors[fg],
+#         'background': colors[bg]
+#     }
+
+# def powerline(fg="light", bg="dark"):
+#     return widget.TextBox(
+#         **base(fg, bg),
+#         text="", # Icon: nf-oct-triangle_left
+#         fontsize=37,
+#         padding=-2
+#     )
+
+
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(),
+                widget.GroupBox(fontsize=20),
                 widget.Prompt(),
                 widget.WindowName(),
                 widget.Chord(
@@ -138,13 +153,16 @@ screens = [
                     fontsize = 11
                 ),
                 widget.Systray(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p',fontsize = 11),
+                widget.Clock(
+                    format='%Y-%m-%d %a %I:%M %p',
+                    fontsize = 13,
+                    ),
                 widget.Memory(
                     #format = '{MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
-                    foreground="#e407eb",
+                    # foreground="#e407eb",
                     font = "JetBrainsMono Nerd Font",
                     padding = 4,
-                    fontsize = 11
+                    fontsize = 11,
                 ),
             ],
             30,
