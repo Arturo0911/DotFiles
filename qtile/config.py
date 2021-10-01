@@ -1,4 +1,3 @@
-
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget
@@ -7,7 +6,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import os
 import psutil # installed by pip the psutil dependency
-
+import json
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -49,14 +48,21 @@ keys = [
     Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
         desc="Toggle between split and unsplit sides of stack"),
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
-    Key([mod], "m", lazy.spawn("rofi -show run")),
+    Key([mod], "m", lazy.spawn("brave")),
+    Key([mod], "g", lazy.spawn("thunar")),
+    Key([mod], "x", lazy.spawn("rofi -show drun")),
+    Key([mod], "z", lazy.spawn("zoom")),
+    Key([mod], "v", lazy.spawn("codium")),
+    Key([mod], "t", lazy.spawn("postman")),
     Key([mod], "f", lazy.spawn("firefox")),
-    Key([mod], "s", lazy.spawn("spotify")),
+    Key([mod], "i", lazy.spawn("idea")),
+    Key([mod], "s", lazy.spawn("scrot -s -e 'mv ~/Pictures/'")),
+    Key([mod, 'shift'], 's', lazy.spawn("scrot")),
     Key([mod, 'shift'], "m", lazy.spawn("rofi -show")),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-
+    Key([mod], "p", lazy.spawn("pycharm")),
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
@@ -65,7 +71,7 @@ keys = [
 
 #group_list = ["","","DEV",""]
 groups = [Group(i) for i in [
-    "","","","","", ""
+    "","","","","ﯙ", "", ""
     ]]
 #groups = [__groups[i] for i in __groups]
 
@@ -111,58 +117,103 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-# def base(fg='text', bg='dark'): 
-#     return {
-#         'foreground': colors[fg],
-#         'background': colors[bg]
-#     }
+def base(fg='text', bg='dark'):
+    with open("config.json") as file:
+        return {
+            'foreground': json.load(file)[fg][0],
+            'background': json.load(file)[bg][0]
+        }
 
-# def powerline(fg="light", bg="dark"):
-#     return widget.TextBox(
-#         **base(fg, bg),
-#         text="", # Icon: nf-oct-triangle_left
-#         fontsize=37,
-#         padding=-2
-#     )
+def separator():
+    return widget.Sep(linewidth=0, padding=5)
+
+
+def icon(fg='text', bg='dark', fontsize=16, text="?"):
+    return widget.TextBox(
+        background="fb9f7f",
+        fontsize=fontsize,
+        text=text,
+        padding=3
+    )
+
+
+def powerline(fg, bg):
+    return widget.TextBox(
+        # **base(fg, bg),
+        foreground=bg,
+        # background=bg,
+        text="", # Icon: nf-oct-triangle_left
+        fontsize=71,
+        padding=-12.2
+    )
+
 
 
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(fontsize=20),
+                widget.GroupBox(fontsize=25),
                 widget.Prompt(),
-                widget.WindowName(),
+                widget.WindowName(
+                    fontsize=12,
+                    font="Agave Nerd Font",
+                    padding=15,
+                    foreground="#a151d3"
+                    ),
                 widget.Chord(
                     chords_colors={
                         'launch': ("#ff0000", "#ffffff"),
                     },
                     name_transform=lambda name: name.upper(),
                 ),
+                powerline(fg="#f1ffff", bg="#fb9f7f"),
                 widget.Net(
-                        foreground = "#697a11",
+                        
+                        foreground = "#0f101a",
+                        background = "#fb9f7f",
                         interface="enp0s25",
-                        format = ' {down} ↓↑ {up}',
-                        padding = 3,
-                        fontsize = 11
+                        format = '﬉ {down}↓↑{up}',
+                        padding = 15,
+                        fontsize = 14,
+                        font="Agave Nerd Font"
                         ),
+                # separator(),
+                # widget.Sep(**base(), linewidth=0, padding=5),
+                # powerline('color1', 'dark'),
+                # powerline(),
+                # powerline(fg="#f1ffff", bg="#a151d3"),
                 widget.CPU(
-                    foreground= "#069c88",
+                    # foreground= "#069c88",
+                    font="Agave Nerd Font",
+                    foreground = "#0f101a",
+                    background="#a151d3",
                     format= ' {freq_current}GHz {load_percent}%',
-                    padding = 3,
-                    fontsize = 11
+                    padding = 15,
+                    fontsize = 13
                 ),
                 widget.Systray(),
+                # powerline(),
                 widget.Clock(
-                    format='%Y-%m-%d %a %I:%M %p',
-                    fontsize = 13,
-                    ),
-                widget.Memory(
-                    #format = '{MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
-                    # foreground="#e407eb",
-                    font = "JetBrainsMono Nerd Font",
-                    padding = 4,
+                    font="Agave Nerd Font",
+                    format=' %Y-%m-%d %I:%M %p',
+                    padding = 15,
                     fontsize = 11,
+                    foreground = "#0f101a",
+                    background="#0e79b7"
+                    ),
+                # powerline(),
+                # powerline(fg="#f1ffff", bg="#069c88"),
+                widget.Memory(
+                    format = ' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
+                    # foreground="#e407eb",
+                    # font = "JetBrainsMono Nerd Font",
+                    font="Agave Nerd Font",
+                    padding = 15,
+                    fontsize = 13,
+                    #foreground="#f1ffff",
+                    foreground = "#0f101a",
+                    background="#069c88"
                 ),
             ],
             30,
@@ -198,25 +249,14 @@ auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True
 
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
 
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/neo.jpg",
+    "feh --bg-fill ~/.config/qtile/rick.jpg",
     "picom &"
 ]
 
 for x in cmd:
     os.system(x)
-
-
-
