@@ -51,9 +51,9 @@ keys = [
     Key([mod], "m", lazy.spawn("brave")),
     Key([mod], "g", lazy.spawn("thunar")),
     Key([mod], "x", lazy.spawn("rofi -show drun")),
-    Key([mod], "z", lazy.spawn("zoom")),
+    Key([mod], "z", lazy.spawn("/home/payload/BurpSuiteCommunity/BurpSuiteCommunity")),
     Key([mod], "v", lazy.spawn("codium")),
-    Key([mod], "t", lazy.spawn("postman")),
+    Key([mod], "t", lazy.spawn("spotify")),
     Key([mod], "f", lazy.spawn("firefox")),
     Key([mod], "i", lazy.spawn("idea")),
     Key([mod], "s", lazy.spawn("scrot -s -e 'mv ~/Pictures/'")),
@@ -71,7 +71,7 @@ keys = [
 
 #group_list = ["","","DEV",""]
 groups = [Group(i) for i in [
-    "","","","","ﯙ", "", ""
+    "","","","","ﯙ", ""
     ]]
 #groups = [__groups[i] for i in __groups]
 
@@ -157,7 +157,7 @@ screens = [
                 widget.Prompt(),
                 widget.WindowName(
                     fontsize=12,
-                    font="Agave Nerd Font",
+                    font="UbuntuMono Nerd Font",
                     padding=15,
                     foreground="#a151d3"
                     ),
@@ -175,8 +175,8 @@ screens = [
                         interface="enp0s25",
                         format = '﬉ {down}↓↑{up}',
                         padding = 15,
-                        fontsize = 14,
-                        font="Agave Nerd Font"
+                        fontsize = 13,
+                        font="UbuntuMono Nerd Font"
                         ),
                 # separator(),
                 # widget.Sep(**base(), linewidth=0, padding=5),
@@ -185,17 +185,17 @@ screens = [
                 # powerline(fg="#f1ffff", bg="#a151d3"),
                 widget.CPU(
                     # foreground= "#069c88",
-                    font="Agave Nerd Font",
+                    font="UbuntuMono Nerd Font",
                     foreground = "#0f101a",
                     background="#a151d3",
                     format= ' {freq_current}GHz {load_percent}%',
                     padding = 15,
-                    fontsize = 13
+                    fontsize = 11
                 ),
                 widget.Systray(),
                 # powerline(),
                 widget.Clock(
-                    font="Agave Nerd Font",
+                    font="UbuntuMono Nerd Font",
                     format=' %Y-%m-%d %I:%M %p',
                     padding = 15,
                     fontsize = 11,
@@ -208,7 +208,7 @@ screens = [
                     format = ' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
                     # foreground="#e407eb",
                     # font = "JetBrainsMono Nerd Font",
-                    font="Agave Nerd Font",
+                    font="UbuntuMono Nerd Font",
                     padding = 15,
                     fontsize = 13,
                     #foreground="#f1ffff",
@@ -254,7 +254,7 @@ wmname = "LG3D"
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/rick.jpg",
+    "feh --bg-fill ~/.config/qtile/terror.jpg",
     "picom &"
 ]
 
