@@ -50,12 +50,13 @@ keys = [
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "m", lazy.spawn("brave")),
     Key([mod], "g", lazy.spawn("thunar")),
-    Key([mod], "x", lazy.spawn("rofi -show drun")),
-    Key([mod], "z", lazy.spawn("/home/payload/BurpSuiteCommunity/BurpSuiteCommunity")),
+    Key([mod], "x", lazy.spawn("zoom")),
+    Key([mod], "z", lazy.spawn("postman")),
     Key([mod], "v", lazy.spawn("codium")),
     Key([mod], "t", lazy.spawn("spotify")),
     Key([mod], "f", lazy.spawn("firefox")),
-    Key([mod], "i", lazy.spawn("idea")),
+    Key([mod], "i", lazy.spawn("arduino")),
+    Key([mod], "b", lazy.spawn("/opt/Gogland/bin/goland.sh")),
     Key([mod], "s", lazy.spawn("scrot -s -e 'mv ~/Pictures/'")),
     Key([mod, 'shift'], 's', lazy.spawn("scrot")),
     Key([mod, 'shift'], "m", lazy.spawn("rofi -show")),
@@ -71,7 +72,7 @@ keys = [
 
 #group_list = ["","","DEV",""]
 groups = [Group(i) for i in [
-    "","","","","ﯙ", ""
+    "","","","ﮧ","", "漣", ""
     ]]
 #groups = [__groups[i] for i in __groups]
 
@@ -91,6 +92,13 @@ for i, group in enumerate(groups):
         #     desc="move focused window to group {}".format(i.name)),
     ])
 
+layout_theme = {"border_width": 2,
+                "margin": 8,
+                "border_focus": "e1acff",
+                "border_normal": "1D2330"
+                }
+
+
 layouts = [
     #layout.Columns(border_focus_stack='#d75f5f'),
     #layout.Max(),
@@ -99,7 +107,8 @@ layouts = [
     # layout.Bsp(),
     # layout.Matrix(),
     layout.MonadTall(
-        border_with=3,
+        border_with=2,
+        # margin=10,
         border_focus ="#543470"
     ),
     # layout.MonadWide(),
@@ -157,9 +166,7 @@ screens = [
                 widget.Prompt(),
                 widget.WindowName(
                     fontsize=12,
-                    font="UbuntuMono Nerd Font",
-                    padding=15,
-                    foreground="#a151d3"
+                    font="Hack Nerd Font"
                     ),
                 widget.Chord(
                     chords_colors={
@@ -173,9 +180,9 @@ screens = [
                         foreground = "#0f101a",
                         background = "#fb9f7f",
                         interface="enp0s25",
-                        format = '﬉ {down}↓↑{up}',
+                        format = '﬉ {down} ↓↑{up}',
                         padding = 15,
-                        fontsize = 13,
+                        fontsize = 15,
                         font="UbuntuMono Nerd Font"
                         ),
                 # separator(),
@@ -190,7 +197,7 @@ screens = [
                     background="#a151d3",
                     format= ' {freq_current}GHz {load_percent}%',
                     padding = 15,
-                    fontsize = 11
+                    fontsize = 15
                 ),
                 widget.Systray(),
                 # powerline(),
@@ -198,23 +205,23 @@ screens = [
                     font="UbuntuMono Nerd Font",
                     format=' %Y-%m-%d %I:%M %p',
                     padding = 15,
-                    fontsize = 11,
+                    fontsize = 15,
                     foreground = "#0f101a",
                     background="#0e79b7"
                     ),
                 # powerline(),
                 # powerline(fg="#f1ffff", bg="#069c88"),
-                widget.Memory(
-                    format = ' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
-                    # foreground="#e407eb",
-                    # font = "JetBrainsMono Nerd Font",
-                    font="UbuntuMono Nerd Font",
-                    padding = 15,
-                    fontsize = 13,
-                    #foreground="#f1ffff",
-                    foreground = "#0f101a",
-                    background="#069c88"
-                ),
+                # widget.Memory(
+                #     format = ' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
+                #     # foreground="#e407eb",
+                #     # font = "JetBrainsMono Nerd Font",
+                #     font="UbuntuMono Nerd Font",
+                #     padding = 15,
+                #     fontsize = 13,
+                #     #foreground="#f1ffff",
+                #     foreground = "#0f101a",
+                #     background="#069c88"
+                # ),
             ],
             30,
         ),
@@ -254,7 +261,7 @@ wmname = "LG3D"
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/terror.jpg",
+    "feh --bg-fill ~/.config/qtile/vibes.jpg",
     "picom &"
 ]
 
