@@ -5,7 +5,7 @@ from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import os
-import psutil # installed by pip the psutil dependency
+import psutil  # installed by pip the psutil dependency
 import json
 
 mod = "mod4"
@@ -71,9 +71,19 @@ keys = [
 ]
 
 #group_list = ["","","DEV",""]
-groups = [Group(i) for i in [
-    "","","","ﮧ","", "漣", ""
-    ]]
+# groups = [Group(i) for i in [
+#     "","","","", "ﱾ", "漣",""
+#     ]]
+
+groups = [Group("", layout='monadtall'),
+          Group("", layout='monadtall'),
+          Group("", layout='monadtall'),
+          Group("", layout='monadtall'),
+          Group("ﱾ", layout='monadtall'),
+          Group("漣", layout='monadtall'),
+          Group("", layout='monadtall')]
+
+
 #groups = [__groups[i] for i in __groups]
 
 for i, group in enumerate(groups):
@@ -92,39 +102,76 @@ for i, group in enumerate(groups):
         #     desc="move focused window to group {}".format(i.name)),
     ])
 
-layout_theme = {"border_width": 2,
-                "margin": 8,
+layout_theme = {"border_width": 1,
+                "margin": 3,
                 "border_focus": "e1acff",
                 "border_normal": "1D2330"
                 }
 
-
-layouts = [
-    #layout.Columns(border_focus_stack='#d75f5f'),
-    #layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    layout.MonadTall(
+"""
+layout.MonadTall(
         border_with=2,
         # margin=10,
         border_focus ="#543470"
     ),
+"""
+
+layouts = [
+    # layout.Columns(border_focus_stack='#d75f5f'),
+    # layout.Bsp(),
+    # layout.Matrix(),
+    layout.MonadTall(**layout_theme),
+    layout.Max(**layout_theme),
     # layout.MonadWide(),
-    # layout.RatioTile(),
+    layout.Stack(num_stacks=2),
+    layout.RatioTile(**layout_theme),
     # layout.Tile(),
-    # layout.TreeTab(),
+    layout.TreeTab(
+        font="UbuntuMono Nerd Font",
+        fontsize=10,
+        sections=["FIRST", "SECOND", "THIRD", "FOURTH"],
+        section_fontsize=10,
+        border_width=3,
+        bg_color="1c1f24",
+        active_bg="c678dd",
+        active_fg="000000",
+        inactive_bg="a9a1e1",
+        inactive_fg="1c1f24",
+        padding_left=0,
+        padding_x=0,
+        padding_y=5,
+        section_top=10,
+        section_bottom=20,
+        level_shift=8,
+        vspace=3,
+        panel_width=200
+    ),
+    layout.Floating(**layout_theme)
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
 
+
+colors = [["#282c34", "#282c34"],
+          ["#1c1f24", "#1c1f24"],
+          ["#dfdfdf", "#dfdfdf"],
+          ["#ff6c6b", "#ff6c6b"],
+          ["#98be65", "#98be65"],
+          ["#da8548", "#da8548"],
+          ["#51afef", "#51afef"],
+          ["#c678dd", "#c678dd"],
+          ["#46d9ff", "#46d9ff"],
+          ["#a9a1e1", "#a9a1e1"]]
+
+
 widget_defaults = dict(
     font='JetBrains Mono',
-    fontsize=12,
-    padding=3,
+    fontsize=8,
+    padding=2,
+    background=colors[0]
 )
 extension_defaults = widget_defaults.copy()
+
 
 def base(fg='text', bg='dark'):
     with open("config.json") as file:
@@ -133,8 +180,9 @@ def base(fg='text', bg='dark'):
             'background': json.load(file)[bg][0]
         }
 
+
 def separator():
-    return widget.Sep(linewidth=0, padding=5)
+    return widget.Sep(linewidth=0, padding=1)
 
 
 def icon(fg='text', bg='dark', fontsize=16, text="?"):
@@ -142,7 +190,7 @@ def icon(fg='text', bg='dark', fontsize=16, text="?"):
         background="fb9f7f",
         fontsize=fontsize,
         text=text,
-        padding=3
+        padding=1
     )
 
 
@@ -151,77 +199,111 @@ def powerline(fg, bg):
         # **base(fg, bg),
         foreground=bg,
         # background=bg,
-        text="", # Icon: nf-oct-triangle_left
+        text="",  # Icon: nf-oct-triangle_left
         fontsize=71,
         padding=-12.2
     )
-
 
 
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.GroupBox(fontsize=25),
-                widget.Prompt(),
-                widget.WindowName(
-                    fontsize=12,
-                    font="Hack Nerd Font"
-                    ),
-                widget.Chord(
-                    chords_colors={
-                        'launch': ("#ff0000", "#ffffff"),
-                    },
-                    name_transform=lambda name: name.upper(),
+                widget.GroupBox(
+                    font="Ubuntu Bold",
+                    fontsize=20,
+                    margin_y=2,
+                    margin_x=0,
+                    padding_y=2,
+                    padding_x=3,
+                    borderwidth=3,
+                    active=colors[2],
+                    inactive=colors[7],
+                    rounded=False,
+                    highlight_color=colors[1],
+                    highlight_method="line",
+                    this_current_screen_border=colors[6],
+                    this_screen_border=colors[4],
+                    other_current_screen_border=colors[6],
+                    other_screen_border=colors[4],
+                    foreground=colors[2],
+                    background=colors[0]
                 ),
-                powerline(fg="#f1ffff", bg="#fb9f7f"),
+                widget.TextBox(
+                    text='|',
+                    font="Ubuntu Mono",
+                    background=colors[0],
+                    foreground='474747',
+                    padding=2,
+                    fontsize=14
+                ),
+                # widget.Prompt(),
+                widget.WindowName(
+                    fontsize=10,
+                    font="Hack Nerd Font"
+                ),
+                widget.TextBox(
+                    text='',
+                    font="Ubuntu Mono",
+                    background=colors[0],
+                    foreground=colors[3],
+                    fontsize=71,
+                    padding=-13.5
+                ),
                 widget.Net(
-                        
-                        foreground = "#0f101a",
-                        background = "#fb9f7f",
-                        interface="enp0s25",
-                        format = '﬉ {down} ↓↑{up}',
-                        padding = 15,
-                        fontsize = 15,
-                        font="UbuntuMono Nerd Font"
-                        ),
-                # separator(),
-                # widget.Sep(**base(), linewidth=0, padding=5),
-                # powerline('color1', 'dark'),
-                # powerline(),
-                # powerline(fg="#f1ffff", bg="#a151d3"),
+                    interface="enp0s25",
+                    font="UbuntuMono Nerd Font",
+                    fontsize=14,
+                    format=' ﬉ {down}↓↑{up}',
+                    foreground=colors[1],
+                    background=colors[3],
+                    padding=0,
+                    margin=15,
+                    margin_y=30,
+                    padding_y=2,
+                    padding_x=3,
+                ),
+                # widget.Net(
+
+                #     foreground="#0f101a",
+                #     background="#fb9f7f",
+                #     interface="enp0s25",
+                #     format='﬉ {down} ↓↑{up}',
+                #     padding=10,
+                #     fontsize=15,
+                #     font="UbuntuMono Nerd Font"
+                # ),
                 widget.CPU(
                     # foreground= "#069c88",
                     font="UbuntuMono Nerd Font",
-                    foreground = "#0f101a",
-                    background="#a151d3",
-                    format= ' {freq_current}GHz {load_percent}%',
-                    padding = 15,
-                    fontsize = 15
+                    foreground=colors[1],
+                    background=colors[5],
+                    format=' {freq_current}GHz {load_percent}%',
+                    padding=5,
+                    fontsize=12
                 ),
-                widget.Systray(),
-                # powerline(),
                 widget.Clock(
-                    font="UbuntuMono Nerd Font",
-                    format=' %Y-%m-%d %I:%M %p',
-                    padding = 15,
-                    fontsize = 15,
                     foreground = "#0f101a",
-                    background="#0e79b7"
-                    ),
-                # powerline(),
-                # powerline(fg="#f1ffff", bg="#069c88"),
+                    background="#0e79b7",
+                    format="  %A, %B %d -  %H:%M ",
+                    font="Ubuntu Mono Bold Nerd Font",
+                    fontsize=10,
+                    padding=0,
+                    margin=15,
+                    margin_y=30,
+                    padding_y=2,
+                    padding_x=3
+                ),
                 # widget.Memory(
-                #     format = ' {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
-                #     # foreground="#e407eb",
-                #     # font = "JetBrainsMono Nerd Font",
                 #     font="UbuntuMono Nerd Font",
-                #     padding = 15,
                 #     fontsize = 13,
-                #     #foreground="#f1ffff",
-                #     foreground = "#0f101a",
-                #     background="#069c88"
-                # ),
+                #     foreground=colors[1],
+                #     background=colors[6],
+                #     mouse_callbacks={
+                #         'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
+                #     fmt='Mem: {}',
+                #     padding=10
+                # )
             ],
             30,
         ),
@@ -261,7 +343,7 @@ wmname = "LG3D"
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/vibes.jpg",
+    "feh --bg-fill ~/.config/qtile/rick.jpg",
     "picom &"
 ]
 
