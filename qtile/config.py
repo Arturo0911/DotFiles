@@ -71,17 +71,17 @@ keys = [
 ]
 
 #group_list = ["","","DEV",""]
-# groups = [Group(i) for i in [
-#     "","","","", "ﱾ", "漣",""
-#     ]]
+groups = [Group(i) for i in [
+    "", "", "", "", "ﱾ", "漣", ""
+]]
 
-groups = [Group("", layout='monadtall'),
-          Group("", layout='monadtall'),
-          Group("", layout='monadtall'),
-          Group("", layout='monadtall'),
-          Group("ﱾ", layout='monadtall'),
-          Group("漣", layout='monadtall'),
-          Group("", layout='monadtall')]
+# groups = [Group("", layout='monadtall'),
+#           Group("", layout='monadtall'),
+#           Group("", layout='monadtall'),
+#           Group("", layout='monadtall'),
+#           Group("ﱾ", layout='monadtall'),
+#           Group("漣", layout='monadtall'),
+#           Group("", layout='monadtall')]
 
 
 #groups = [__groups[i] for i in __groups]
@@ -108,45 +108,59 @@ layout_theme = {"border_width": 1,
                 "border_normal": "1D2330"
                 }
 
-"""
-layout.MonadTall(
-        border_with=2,
-        # margin=10,
-        border_focus ="#543470"
-    ),
+# layout.MonadTall(
+#     border_with=2,
+#     # margin=10,
+#     border_focus="#543470"
+# ),
+
+
 """
 
+# "focus": [
+#         "#a151d3",
+#         "#a151d3"
+#     ]
+layout_conf = {
+    'border_focus': "#a151d3",
+    'border_width': 1,
+    'margin': 4
+}
+
 layouts = [
-    # layout.Columns(border_focus_stack='#d75f5f'),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    layout.MonadTall(**layout_theme),
-    layout.Max(**layout_theme),
-    # layout.MonadWide(),
-    layout.Stack(num_stacks=2),
-    layout.RatioTile(**layout_theme),
+    layout.Max(),
+    layout.MonadTall(**layout_conf),
+    layout.MonadWide(**layout_conf),
+    layout.Bsp(**layout_conf),
+    layout.Matrix(columns=2, **layout_conf),
+    layout.RatioTile(**layout_conf),
+    # layout.Columns(),
     # layout.Tile(),
-    layout.TreeTab(
-        font="UbuntuMono Nerd Font",
-        fontsize=10,
-        sections=["FIRST", "SECOND", "THIRD", "FOURTH"],
-        section_fontsize=10,
-        border_width=3,
-        bg_color="1c1f24",
-        active_bg="c678dd",
-        active_fg="000000",
-        inactive_bg="a9a1e1",
-        inactive_fg="1c1f24",
-        padding_left=0,
-        padding_x=0,
-        padding_y=5,
-        section_top=10,
-        section_bottom=20,
-        level_shift=8,
-        vspace=3,
-        panel_width=200
+    # layout.TreeTab(),
+    # layout.VerticalTile(),
+    # layout.Zoomy(),
+]
+"""
+layout_conf = {
+    'border_focus': "#a151d3",
+    'border_width': 1,
+    'margin': 4
+}
+
+
+layouts = [
+    # layout.Max(),
+    layout.MonadTall(
+        border_focus="#a151d3",
+        border_width=2
     ),
-    layout.Floating(**layout_theme)
+    # layout.MonadWide(**layout_conf),
+    # layout.Bsp(**layout_conf),
+    # layout.Matrix(columns=2, **layout_conf),
+    # layout.RatioTile(**layout_conf),
+    # layout.Columns(),
+    # layout.Tile(),
+    # layout.TreeTab(),
     # layout.VerticalTile(),
     # layout.Zoomy(),
 ]
@@ -166,44 +180,137 @@ colors = [["#282c34", "#282c34"],
 
 widget_defaults = dict(
     font='JetBrains Mono',
-    fontsize=8,
+    fontsize=15,
     padding=2,
     background=colors[0]
 )
 extension_defaults = widget_defaults.copy()
 
 
+# config settings
+def load_colors():
+    with open("config.json") as f:
+        return json.load(f)
+
+
 def base(fg='text', bg='dark'):
-    with open("config.json") as file:
-        return {
-            'foreground': json.load(file)[fg][0],
-            'background': json.load(file)[bg][0]
-        }
+    return {
+        'foreground': load_colors()[fg],
+        'background': load_colors()[bg]
+    }
 
 
 def separator():
-    return widget.Sep(linewidth=0, padding=1)
+    return widget.Sep(**base(), linewidth=0, padding=5)
 
 
 def icon(fg='text', bg='dark', fontsize=16, text="?"):
     return widget.TextBox(
-        background="fb9f7f",
+        **base(fg, bg),
         fontsize=fontsize,
         text=text,
-        padding=1
+        padding=3
     )
 
 
-def powerline(fg, bg):
+def powerline(fg="light", bg="dark"):
     return widget.TextBox(
-        # **base(fg, bg),
-        foreground=bg,
-        # background=bg,
+        **base(fg, bg),
         text="",  # Icon: nf-oct-triangle_left
-        fontsize=71,
-        padding=-12.2
+        fontsize=37,
+        padding=-2
     )
 
+
+# screens = [
+#     Screen(
+#         top=bar.Bar(
+#             [
+#                 widget.GroupBox(
+#                     font="Ubuntu Bold",
+#                     fontsize=18,
+#                     margin_y=2,
+#                     margin_x=0,
+#                     padding_y=2,
+#                     padding_x=3,
+#                     borderwidth=3,
+#                     active=colors[2],
+#                     inactive=colors[7],
+#                     rounded=False,
+#                     highlight_color=colors[1],
+#                     highlight_method="line",
+#                     this_current_screen_border=colors[6],
+#                     this_screen_border=colors[4],
+#                     other_current_screen_border=colors[6],
+#                     other_screen_border=colors[4],
+#                     foreground=colors[2],
+#                     background=colors[0]
+#                 ),
+#                 widget.TextBox(
+#                     text='|',
+#                     font="Ubuntu Mono",
+#                     background=colors[0],
+#                     foreground='474747',
+#                     padding=2,
+#                     fontsize=14
+#                 ),
+#                 # widget.Prompt(),
+#                 # separator(),
+#                 widget.WindowName(
+#                     fontsize=10,
+#                     font="Hack Nerd Font"
+#                 ), #icon(bg="color4", text=' '),
+#                 # widget.TextBox(
+#                 #     # background="#fb9f7f",
+#                 #     foreground="#fb9f7f",
+#                 #     fontsize=45,
+#                 #     text="",
+#                 #     padding=0
+#                 # ),
+#                 widget.Net(
+#                     interface="enp0s25",
+#                     format='﬉ {down}↓↑{up}',
+#                     padding=7,
+#                     # background="#fb9f7f",
+#                     foreground="#fb9f7f",
+#                     #fontsize = 14,
+#                     font="Agave Nerd Font",
+#                     fontsize=13,
+#                     # font="UbuntuMono Nerd Font"
+#                 ),
+#                 widget.CPU(
+#                     # foreground= "#069c88",
+#                     font="UbuntuMono Nerd Font",
+#                     foreground=colors[7],
+#                     # background=colors[1],
+#                     format=' {freq_current}GHz {load_percent}%',
+#                     padding=5,
+#                     fontsize=13
+#                 ),
+#                 widget.Systray(),
+#                 widget.Clock(
+#                     foreground="#0e79b7",
+#                     # background="#0e79b7",
+#                     font="UbuntuMono Nerd Font",
+#                     format=' %Y-%m-%d %I:%M %p',
+#                     padding=15,
+#                     fontsize=13,
+#                 ),
+#                 # widget.Memory(
+#                 #     font="UbuntuMono Nerd Font",
+#                 #     fontsize = 13,
+#                 #     foreground=colors[1],
+#                 #     background=colors[6],
+#                 #     mouse_callbacks={
+#                 #         'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
+#                 #     fmt='Mem: {}',
+#                 #     padding=10
+#                 # )
+#             ],
+#             21,
+#         ),
+#     ),
+# ]
 
 screens = [
     Screen(
@@ -211,7 +318,7 @@ screens = [
             [
                 widget.GroupBox(
                     font="Ubuntu Bold",
-                    fontsize=20,
+                    fontsize=18,
                     margin_y=2,
                     margin_x=0,
                     padding_y=2,
@@ -238,77 +345,57 @@ screens = [
                     fontsize=14
                 ),
                 # widget.Prompt(),
+                # widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        'launch': ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
+                ),
                 widget.WindowName(
                     fontsize=10,
                     font="Hack Nerd Font"
                 ),
-                widget.TextBox(
-                    text='',
-                    font="Ubuntu Mono",
-                    background=colors[0],
-                    foreground=colors[3],
-                    fontsize=71,
-                    padding=-13.5
-                ),
+                widget.Systray(),
                 widget.Net(
                     interface="enp0s25",
-                    font="UbuntuMono Nerd Font",
-                    fontsize=14,
-                    format=' ﬉ {down}↓↑{up}',
-                    foreground=colors[1],
-                    background=colors[3],
-                    padding=0,
-                    margin=15,
-                    margin_y=30,
-                    padding_y=2,
-                    padding_x=3,
+                    format='﬉{down}↓↑{up}',
+                    padding=7,
+                    # background="#fb9f7f",
+                    foreground="#fb9f7f",
+                    #fontsize = 14,
+                    font="Agave Nerd Font",
+                    fontsize=13,
+                    # font="UbuntuMono Nerd Font"
                 ),
-                # widget.Net(
-
-                #     foreground="#0f101a",
-                #     background="#fb9f7f",
-                #     interface="enp0s25",
-                #     format='﬉ {down} ↓↑{up}',
-                #     padding=10,
-                #     fontsize=15,
-                #     font="UbuntuMono Nerd Font"
-                # ),
                 widget.CPU(
-                    # foreground= "#069c88",
-                    font="UbuntuMono Nerd Font",
-                    foreground=colors[1],
-                    background=colors[5],
+                    foreground="#069c88",
                     format=' {freq_current}GHz {load_percent}%',
-                    padding=5,
-                    fontsize=12
+                    padding=3,
+                    fontsize=13,
+                    font="UbuntuMono Nerd Font",
                 ),
                 widget.Clock(
-                    foreground = "#0f101a",
-                    background="#0e79b7",
-                    format="  %A, %B %d -  %H:%M ",
-                    font="Ubuntu Mono Bold Nerd Font",
-                    fontsize=10,
-                    padding=0,
-                    margin=15,
-                    margin_y=30,
-                    padding_y=2,
-                    padding_x=3
+                    foreground="#0e79b7",
+                    # background="#0e79b7",
+                    font="UbuntuMono Nerd Font",
+                    format=' %Y-%m-%d %I:%M %p',
+                    padding=15,
+                    fontsize=13,
                 ),
                 # widget.Memory(
-                #     font="UbuntuMono Nerd Font",
-                #     fontsize = 13,
-                #     foreground=colors[1],
-                #     background=colors[6],
-                #     mouse_callbacks={
-                #         'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
-                #     fmt='Mem: {}',
-                #     padding=10
-                # )
+                #     #format = '{MemUsed: .0f}{mm}/{MemTotal: .0f}{mm}',
+                #     foreground="#e407eb",
+                #     font="JetBrainsMono Nerd Font",
+                #     padding=3,
+                #     fontsize=11
+                # ),
             ],
-            30,
+            21,
         ),
     ),
 ]
+
 
 # Drag floating layouts.
 mouse = [
@@ -343,9 +430,10 @@ wmname = "LG3D"
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/rick.jpg",
+    "feh --bg-fill ~/.config/qtile/arch.png",
     "picom &"
 ]
 
 for x in cmd:
     os.system(x)
+
