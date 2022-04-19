@@ -55,15 +55,16 @@ keys = [
     Key([mod], "v", lazy.spawn("codium")),
     Key([mod], "t", lazy.spawn("spotify")),
     Key([mod], "f", lazy.spawn("firefox")),
+    Key([mod], "n", lazy.spawn("kitty")),
     Key([mod], "i", lazy.spawn("arduino")),
-    Key([mod], "b", lazy.spawn("/opt/Gogland/bin/goland.sh")),
+    Key([mod], "b", lazy.spawn("/opt/intellij_idea/bin/idea.sh")),
     Key([mod], "s", lazy.spawn("scrot -s -e 'mv ~/Pictures/'")),
     Key([mod, 'shift'], 's', lazy.spawn("scrot")),
-    Key([mod, 'shift'], "m", lazy.spawn("rofi -show")),
+    Key([mod, 'shift'], "m", lazy.spawn("rofi -show run")),
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
     Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
-    Key([mod], "p", lazy.spawn("pycharm")),
+    Key([mod], "p", lazy.spawn("/opt/pycharm/bin/pycharm.sh")),
     Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "r", lazy.spawncmd(),
@@ -72,7 +73,7 @@ keys = [
 
 #group_list = ["","","DEV",""]
 groups = [Group(i) for i in [
-    "", "", "", "", "ﱾ", "漣", ""
+    "","", "", "" , "", "漣", ""
 ]]
 
 # groups = [Group("", layout='monadtall'),
@@ -114,33 +115,6 @@ layout_theme = {"border_width": 1,
 #     border_focus="#543470"
 # ),
 
-
-"""
-
-# "focus": [
-#         "#a151d3",
-#         "#a151d3"
-#     ]
-layout_conf = {
-    'border_focus': "#a151d3",
-    'border_width': 1,
-    'margin': 4
-}
-
-layouts = [
-    layout.Max(),
-    layout.MonadTall(**layout_conf),
-    layout.MonadWide(**layout_conf),
-    layout.Bsp(**layout_conf),
-    layout.Matrix(columns=2, **layout_conf),
-    layout.RatioTile(**layout_conf),
-    # layout.Columns(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
-]
-"""
 layout_conf = {
     'border_focus': "#a151d3",
     'border_width': 1,
@@ -222,96 +196,6 @@ def powerline(fg="light", bg="dark"):
     )
 
 
-# screens = [
-#     Screen(
-#         top=bar.Bar(
-#             [
-#                 widget.GroupBox(
-#                     font="Ubuntu Bold",
-#                     fontsize=18,
-#                     margin_y=2,
-#                     margin_x=0,
-#                     padding_y=2,
-#                     padding_x=3,
-#                     borderwidth=3,
-#                     active=colors[2],
-#                     inactive=colors[7],
-#                     rounded=False,
-#                     highlight_color=colors[1],
-#                     highlight_method="line",
-#                     this_current_screen_border=colors[6],
-#                     this_screen_border=colors[4],
-#                     other_current_screen_border=colors[6],
-#                     other_screen_border=colors[4],
-#                     foreground=colors[2],
-#                     background=colors[0]
-#                 ),
-#                 widget.TextBox(
-#                     text='|',
-#                     font="Ubuntu Mono",
-#                     background=colors[0],
-#                     foreground='474747',
-#                     padding=2,
-#                     fontsize=14
-#                 ),
-#                 # widget.Prompt(),
-#                 # separator(),
-#                 widget.WindowName(
-#                     fontsize=10,
-#                     font="Hack Nerd Font"
-#                 ), #icon(bg="color4", text=' '),
-#                 # widget.TextBox(
-#                 #     # background="#fb9f7f",
-#                 #     foreground="#fb9f7f",
-#                 #     fontsize=45,
-#                 #     text="",
-#                 #     padding=0
-#                 # ),
-#                 widget.Net(
-#                     interface="enp0s25",
-#                     format='﬉ {down}↓↑{up}',
-#                     padding=7,
-#                     # background="#fb9f7f",
-#                     foreground="#fb9f7f",
-#                     #fontsize = 14,
-#                     font="Agave Nerd Font",
-#                     fontsize=13,
-#                     # font="UbuntuMono Nerd Font"
-#                 ),
-#                 widget.CPU(
-#                     # foreground= "#069c88",
-#                     font="UbuntuMono Nerd Font",
-#                     foreground=colors[7],
-#                     # background=colors[1],
-#                     format=' {freq_current}GHz {load_percent}%',
-#                     padding=5,
-#                     fontsize=13
-#                 ),
-#                 widget.Systray(),
-#                 widget.Clock(
-#                     foreground="#0e79b7",
-#                     # background="#0e79b7",
-#                     font="UbuntuMono Nerd Font",
-#                     format=' %Y-%m-%d %I:%M %p',
-#                     padding=15,
-#                     fontsize=13,
-#                 ),
-#                 # widget.Memory(
-#                 #     font="UbuntuMono Nerd Font",
-#                 #     fontsize = 13,
-#                 #     foreground=colors[1],
-#                 #     background=colors[6],
-#                 #     mouse_callbacks={
-#                 #         'Button1': lambda: qtile.cmd_spawn(myTerm + ' -e htop')},
-#                 #     fmt='Mem: {}',
-#                 #     padding=10
-#                 # )
-#             ],
-#             21,
-#         ),
-#     ),
-# ]
-
 screens = [
     Screen(
         top=bar.Bar(
@@ -359,7 +243,7 @@ screens = [
                 widget.Systray(),
                 widget.Net(
                     interface="enp0s25",
-                    format='﬉{down}↓↑{up}',
+                    format='﬉ {down}↓↑{up}',
                     padding=7,
                     # background="#fb9f7f",
                     foreground="#fb9f7f",
@@ -430,7 +314,7 @@ wmname = "LG3D"
 
 cmd = [
     "setxkbmap latam",
-    "feh --bg-fill ~/.config/qtile/arch.png",
+    "feh --bg-fill ~/.config/qtile/planet.jpg",
     "picom &"
 ]
 
